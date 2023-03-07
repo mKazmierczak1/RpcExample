@@ -14,12 +14,16 @@ public class Client {
 
     var client = new XmlRpcClient();
     client.setTransportFactory(new XmlRpcCommonsTransportFactory(client));
-
     client.setConfig(config);
 
     // synchronous call
     logMessage("Executing synchronous call...");
-    var result = client.execute("messagesService.sendMessages", List.of("m1")); //
+    var result = client.execute("messagesService.sendMessage", List.of("m1")); //
+    logMessage(result);
+
+    // call with custom type
+    result =
+        client.execute("messagesService.sendMessage", List.of(new Message("custom type", "me")));
     logMessage(result);
 
     // asynchronous calls
@@ -27,10 +31,10 @@ public class Client {
     var correctCallback = new TimingOutCallback(5 * 1000);
 
     logMessage("Executing asynchronous call...");
-    client.executeAsync("messagesService.sendMessagesWithDelay", List.of("m2"), timeoutCallback);
+    client.executeAsync("messagesService.sendMessageWithDelay", List.of("m2"), timeoutCallback);
 
     logMessage("Executing asynchronous call...");
-    client.executeAsync("messagesService.sendMessagesWithDelay", List.of("m3"), correctCallback);
+    client.executeAsync("messagesService.sendMessageWithDelay", List.of("m3"), correctCallback);
 
     logMessage(getAsyncResponse(timeoutCallback));
     logMessage(getAsyncResponse(correctCallback));

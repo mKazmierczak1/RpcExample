@@ -11,6 +11,7 @@
     <modules>
         <module>XMLRpcServer</module>
         <module>XMLRpcClient</module>
+        <module>Model</module>
     </modules>
 
     <properties>
